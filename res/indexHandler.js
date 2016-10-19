@@ -1,3 +1,4 @@
+
 function openModal(){
 	var modal = document.getElementsByClassName("modal")[0];
 	modal.style.display = 'inline';
@@ -10,4 +11,9 @@ function closeModal(){
 
 function returnHome(){
 	window.location = "/home";
+}
+
+function displayError(){
+	var errorMessage =  document.getElementsByClassName("incorrectLogin")[0];
+	errorMessage.style.visibility = 'visible';
 }

@@ -1,31 +1,21 @@
+//Modules
 var express = require('express');
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://postgres:marist@localhost:3000/TreetDB");
+var bodyParser = require("body-parser");
 var server = express();
+var pgp = require("pg-promise")();
+var db = pgp("postgres://postgres:marist@localhost:3000/TreetDB");
 
+//Set Up
+server.use(express.static(__dirname + '/Views'));
 server.use(express.static(__dirname + '/res'));
 
-server.get('/', function(request, response) {
-	response.sendFile('./index.html', {root: '../Treet'});
-});
+server.use(bodyParser.urlencoded({ extended: true }));
 
-server.get('/home', function(request, response) {
-	response.sendFile('./index.html', {root: '../Treet'});
-});
+server.use(bodyParser.json());
 
-server.listen(3001, function() {
-	console.log('Example app listening on port 3001!');
-});
+//Routes
+require('./Routing/routes.js')(server, db);
 
-/*
-Example
-db.any("SELECT FirstName FROM Customers", [true])
-    .then(function (data) {
-    	//for(var d in data){
-        	console.log("DATA:", data);
-    	//}
-    })
-    .catch(function (error) {
-        console.log("ERROR:", error);
-    });
-*/
+server.listen(8080, function(){
+	console.log("Listening on port 8080");
+})
